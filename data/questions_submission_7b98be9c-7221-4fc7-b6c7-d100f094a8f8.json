@@ -1,0 +1,40 @@
+{
+  "sessionId": "7b98be9c-7221-4fc7-b6c7-d100f094a8f8",
+  "startTime": "2025-05-08T09:06:04.001Z",
+  "user_submissions": {
+    "0": {
+      "question_id": "02",
+      "question_description": "Explain how .py and .pyc files are different",
+      "user_content": "",
+      "isSubmitted": true,
+      "submittedAt": "2025-05-08T09:10:10.914Z",
+      "initial_templates": {
+        "language": "python",
+        "label": "Python",
+        "starter": "# Write a short Python code example to demonstrate\n# the difference between .py and .pyc files\n\n"
+      },
+      "user_code_submission": {
+        "language": "python",
+        "label": "Python",
+        "user_code": "# Write a short Python code example to demonstrate\n# the difference between .py and .pyc files\n\nprint(hello)"
+      }
+    },
+    "01": {
+      "question_id": "01",
+      "question_description": "Write a Java program to find the factorial of a number.",
+      "user_content": "nice",
+      "isSubmitted": true,
+      "submittedAt": "2025-05-08T09:13:58.772Z",
+      "initial_templates": {
+        "language": "java",
+        "label": "Java",
+        "starter": "public class Main {\n  public static void main(String[] args) {\n    // Write your code here to find factorial\n    int number = 5;\n    \n    \n  }\n}"
+      },
+      "user_code_submission": {
+        "language": "java",
+        "label": "Java",
+        "user_code": "public class Main {\n  public static void main(String[] args) {\n    // Write your code here to find factorial\n    int number = 5;\n    return 120\n    \n  }\n}"
+      }
+    }
+  }
+}
