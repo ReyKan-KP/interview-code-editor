@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
+import { createClient } from '@/utils/supabase/client';
+
+const supabase = await createClient();
 
 // Helper function to ensure code is properly formatted for storage
 const ensureCodeFormatting = (submissions: any) => {
@@ -56,40 +57,48 @@ export async function POST(request: Request) {
     
     // Create session ID if not provided
     const finalSessionId = sessionId || uuidv4();
-    
-    // Check if file already exists to update instead of overwrite
-    const dataDir = path.join(process.cwd(), 'data');
-    const filePath = path.join(dataDir, `questions_submission_${finalSessionId}.json`);
+    const submissionTime = startTime || new Date().toISOString();
     
     // Ensure all code is properly formatted
     const formattedSubmissions = ensureCodeFormatting(user_submissions);
     
-    let submissionData = {
-      sessionId: finalSessionId,
-      startTime: startTime || new Date().toISOString(),
-      user_submissions: {}
-    };
+    // Check if submission already exists
+    const { data: existingSubmission } = await supabase
+      .from('interview_submissions')
+      .select('user_submissions')
+      .eq('session_id', finalSessionId)
+      .single();
     
-    // If file exists, read it first to merge submissions
-    if (fs.existsSync(filePath)) {
-      const existingData = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-      submissionData = {
-        ...existingData,
-        user_submissions: {
-          ...existingData.user_submissions,
-          ...formattedSubmissions
-        }
+    if (existingSubmission) {
+      // Update existing submission
+      const mergedSubmissions = {
+        ...existingSubmission.user_submissions,
+        ...formattedSubmissions
       };
+      
+      const { error: updateError } = await supabase
+        .from('interview_submissions')
+        .update({
+          user_submissions: mergedSubmissions,
+          updated_at: new Date().toISOString()
+        })
+        .eq('session_id', finalSessionId);
+      
+      if (updateError) throw updateError;
     } else {
-      // Ensure data directory exists
-      if (!fs.existsSync(dataDir)) {
-        fs.mkdirSync(dataDir, { recursive: true });
-      }
-      submissionData.user_submissions = formattedSubmissions;
+      // Create new submission
+      const { error: insertError } = await supabase
+        .from('interview_submissions')
+        .insert({
+          session_id: finalSessionId,
+          start_time: submissionTime,
+          user_submissions: formattedSubmissions,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        });
+      
+      if (insertError) throw insertError;
     }
-    
-    // Write to file
-    fs.writeFileSync(filePath, JSON.stringify(submissionData, null, 2));
     
     return NextResponse.json({ success: true, sessionId: finalSessionId });
   } catch (error) {

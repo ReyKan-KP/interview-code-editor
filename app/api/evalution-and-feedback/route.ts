@@ -1,7 +1,9 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
 import OpenAI from 'openai';
+import { createClient } from '@/utils/supabase/client';
+
+// Initialize Supabase client
+const supabase = await createClient();
 
 // Initialize OpenAI client
 const openai = new OpenAI({
@@ -194,19 +196,21 @@ export async function POST(request: Request) {
       );
     }
     
-    // Read the submission file
-    const dataDir = path.join(process.cwd(), 'data');
-    const submissionFilePath = path.join(dataDir, `questions_submission_${sessionId}.json`);
+    // Fetch submission data from Supabase
+    const { data: submissionData, error: fetchError } = await supabase
+      .from('interview_submissions')
+      .select('*')
+      .eq('session_id', sessionId)
+      .single();
     
-    if (!fs.existsSync(submissionFilePath)) {
+    if (fetchError || !submissionData) {
       return NextResponse.json(
         { success: false, error: 'Submission not found' },
         { status: 404 }
       );
     }
     
-    // Read and parse the submission data
-    const submissionData = JSON.parse(fs.readFileSync(submissionFilePath, 'utf8'));
+    // Process the data for evaluation
     const processedData = prepareDataForEvaluation(submissionData);
     
     // Generate detailed evaluation for interviewers
@@ -240,9 +244,19 @@ export async function POST(request: Request) {
     const evaluation = safeJsonParse(evaluationResponse.choices[0].message.content || "{}");
     const feedback = safeJsonParse(feedbackResponse.choices[0].message.content || "{}");
     
-    // Save detailed evaluation to a file
-    const evaluationFilePath = path.join(dataDir, `evaluation_${sessionId}.json`);
-    fs.writeFileSync(evaluationFilePath, JSON.stringify(evaluation, null, 2));
+    // Save detailed evaluation to Supabase
+    const { error: evaluationError } = await supabase
+      .from('interview_evaluation')
+      .insert({
+        session_id: sessionId,
+        evaluation_data: evaluation,
+        feedback_data: feedback,
+        created_at: new Date().toISOString()
+      });
+    
+    if (evaluationError) {
+      console.error('Error saving evaluation to Supabase:', evaluationError);
+    }
     
     // Return the feedback to display to the user
     return NextResponse.json({
