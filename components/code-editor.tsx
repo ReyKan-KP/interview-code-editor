@@ -23,7 +23,7 @@ interface CodeEditorProps {
 export function CodeEditor({
   language = "javascript",
   defaultValue = "// Write your code here",
-  defaultTheme = "vs-dark",
+  defaultTheme = "vs",
   height = "500px",
   width = "100%",
   onChange,
@@ -72,14 +72,14 @@ export function CodeEditor({
 
   return (
     <Card className={cn(
-      "relative bg-transparent text-white", 
+      "relative bg-white text-gray-800 border border-gray-200", 
       isFullscreen ? "fixed inset-0 z-50 h-screen w-screen rounded-none" : "",
       className
     )}>
-      <div className="flex items-center justify-between gap-2 p-3 border-b">
+      <div className="flex items-center justify-between gap-2 p-3 border-b border-gray-200 bg-gray-50">
         <div className="flex items-center gap-2">
           <Select value={theme} onValueChange={setTheme}>
-            <SelectTrigger className="w-[140px]">
+            <SelectTrigger className="w-[140px] bg-white border-gray-200">
               <SelectValue placeholder="Select theme">
                 {theme && (
                   <div className="flex items-center gap-2">
@@ -109,9 +109,9 @@ export function CodeEditor({
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button variant="outline" 
-                className="bg-gray-900 hover:bg-gray-800"
+                className="bg-white border-gray-200 hover:bg-gray-100"
                 size="icon" onClick={handleCopy}>
-                    {copied ? <Check className="h-4 w-4 text-green-500 hover:text-green-600" /> : <Copy className="h-4 w-4 text-white hover:text-gray-500" />}
+                    {copied ? <Check className="h-4 w-4 text-green-600 hover:text-green-700" /> : <Copy className="h-4 w-4 text-gray-600 hover:text-gray-800" />}
                 </Button>
               </TooltipTrigger>
               <TooltipContent>

@@ -32,7 +32,7 @@ const Page = () => {
   };
 
   return (
-    <main className="h-screen flex flex-col bg-gradient-to-b from-gray-950 to-gray-900 text-white items-center justify-center">
+    <main className="h-screen flex flex-col bg-gradient-to-b from-blue-50 to-gray-100 text-gray-800 items-center justify-center">
       {/* Hero Section */}
       <section className="flex flex-col items-center justify-center px-4 py-20 text-center relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] bg-center opacity-10 z-0"></div>
@@ -43,10 +43,10 @@ const Page = () => {
           transition={{ duration: 0.6 }}
           className="relative z-10 max-w-5xl"
         >
-          <h1 className="text-5xl md:text-6xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-green-500">
+          <h1 className="text-5xl md:text-6xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-green-600">
             Master Your Coding Skills
           </h1>
-          <p className="text-xl md:text-2xl mb-8 text-gray-300 max-w-3xl mx-auto">
+          <p className="text-xl md:text-2xl mb-8 text-gray-600 max-w-3xl mx-auto">
             Elevate your programming expertise with our interactive coding environment. 
             Practice real-world problems and ace your technical interviews.
           </p>
@@ -58,7 +58,7 @@ const Page = () => {
             <Link 
               href="/interview" 
               onClick={startNewSession}
-              className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-green-600 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all group"
+              className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-500 to-green-500 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all group text-white"
             >
               Start Practicing
               <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={20} />

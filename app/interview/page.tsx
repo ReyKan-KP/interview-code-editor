@@ -640,12 +640,12 @@ export default function InterviewPage() {
   };
 
   return (
-    <div className="min-h-screen py-8 flex flex-col items-center justify-center bg-gradient-to-b from-gray-950 to-gray-900 text-white">
+    <div className="min-h-screen py-8 flex flex-col items-center justify-center bg-gradient-to-b from-blue-50 to-gray-100 text-gray-800">
       <motion.h1
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="text-4xl font-bold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-green-500"
+        className="text-4xl font-bold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-green-600"
       >
         Technical Interview
       </motion.h1>
@@ -662,14 +662,14 @@ export default function InterviewPage() {
             variants={itemVariants}
             className="w-full max-w-4xl"
           >
-            <Card className="border border-gray-800 shadow-lg bg-gray-900/50 backdrop-blur-sm overflow-hidden">
-              <CardHeader className="bg-gray-800/50 p-4">
+            <Card className="border border-gray-200 shadow-lg bg-white overflow-hidden">
+              <CardHeader className="bg-gray-50 p-4 border-b border-gray-200">
                 <div className="flex items-center justify-between">
-                  <CardTitle className="text-xl text-blue-400">
+                  <CardTitle className="text-xl text-blue-600">
                     {question.title}
                   </CardTitle>
                   {questionStatus[question.id] && (
-                    <span className="flex items-center text-green-400 text-sm">
+                    <span className="flex items-center text-green-600 text-sm">
                       <Check className="h-4 w-4 mr-1" /> Submitted
                     </span>
                   )}
@@ -677,38 +677,38 @@ export default function InterviewPage() {
               </CardHeader>
               <CardContent className="p-0">
                 <Tabs defaultValue="question" className="w-full">
-                  <TabsList className="w-full justify-start border-b border-gray-800 rounded-none h-12 bg-gray-900/70 p-0">
+                  <TabsList className="w-full justify-start border-b border-gray-200 rounded-none h-12 bg-gray-50 p-0">
                     <TabsTrigger
                       value="question"
-                      className="rounded-none data-[state=active]:border-b-2 data-[state=active]:border-blue-500 data-[state=active]:text-blue-400 h-12 px-6 text-gray-300"
+                      className="rounded-none data-[state=active]:border-b-2 data-[state=active]:border-blue-500 data-[state=active]:text-blue-600 h-12 px-6 text-gray-600"
                     >
                       Question
                     </TabsTrigger>
                     <TabsTrigger
                       value="code-editor"
-                      className="rounded-none data-[state=active]:border-b-2 data-[state=active]:border-green-500 data-[state=active]:text-green-400 h-12 px-6 text-gray-300"
+                      className="rounded-none data-[state=active]:border-b-2 data-[state=active]:border-green-500 data-[state=active]:text-green-600 h-12 px-6 text-gray-600"
                     >
                       Code Editor
                     </TabsTrigger>
                     <TabsTrigger
                       value="content"
-                      className="rounded-none data-[state=active]:border-b-2 data-[state=active]:border-purple-500 data-[state=active]:text-purple-400 h-12 px-6 text-gray-300"
+                      className="rounded-none data-[state=active]:border-b-2 data-[state=active]:border-purple-500 data-[state=active]:text-purple-600 h-12 px-6 text-gray-600"
                     >
                       Content
                     </TabsTrigger>
                   </TabsList>
 
-                  <TabsContent value="question" className="p-6 bg-gray-900/30">
-                    <div className="prose prose-invert max-w-none">
-                      <p className="text-gray-300">{question.description}</p>
+                  <TabsContent value="question" className="p-6 bg-white">
+                    <div className="prose prose-gray max-w-none">
+                      <p className="text-gray-700">{question.description}</p>
                     </div>
                   </TabsContent>
 
                   <TabsContent value="code-editor" className="p-0 border-0">
                     {!question.templates ? (
                       <>
-                        <div className="p-4 flex items-center gap-2 border-b border-gray-800 bg-gray-900/50">
-                          <div className="font-medium text-gray-300">
+                        <div className="p-4 flex items-center gap-2 border-b border-gray-200 bg-gray-50">
+                          <div className="font-medium text-gray-700">
                             Language:
                           </div>
                           <div className="flex items-center gap-2 text-sm">
@@ -719,9 +719,9 @@ export default function InterviewPage() {
                                 languageIcons[
                                   question.codeLanguage as keyof typeof languageIcons
                                 ],
-                                { className: "h-4 w-4 text-blue-400" }
+                                { className: "h-4 w-4 text-blue-600" }
                               )}
-                            <span className="text-blue-400">
+                            <span className="text-blue-600">
                               {question.codeLanguage.charAt(0).toUpperCase() +
                                 question.codeLanguage.slice(1)}
                             </span>
@@ -747,16 +747,16 @@ export default function InterviewPage() {
                         defaultValue={question.templates[0].language}
                         className="w-full"
                       >
-                        <div className="p-4 border-b border-gray-800 bg-gray-900/50">
-                          <div className="font-medium mb-2 text-gray-300">
+                        <div className="p-4 border-b border-gray-200 bg-gray-50">
+                          <div className="font-medium mb-2 text-gray-700">
                             Templates:
                           </div>
-                          <TabsList className="bg-gray-800/70">
+                          <TabsList className="bg-white border border-gray-200">
                             {question.templates.map((template) => (
                               <TabsTrigger
                                 key={template.language}
                                 value={template.language}
-                                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600/50 data-[state=active]:to-green-600/50"
+                                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500/30 data-[state=active]:to-green-500/30"
                               >
                                 {template.label}
                               </TabsTrigger>
@@ -791,14 +791,14 @@ export default function InterviewPage() {
                     )}
                   </TabsContent>
 
-                  <TabsContent value="content" className="p-6 bg-gray-900/30">
+                  <TabsContent value="content" className="p-6 bg-white">
                     <div className="space-y-4">
-                      <h3 className="text-lg font-medium text-blue-400">
+                      <h3 className="text-lg font-medium text-blue-600">
                         Provide your explanation:
                       </h3>
                       <Textarea
                         placeholder="Enter your answer or explanation here..."
-                        className="min-h-[200px] bg-gray-800/50 border-gray-700 text-gray-200 placeholder:text-gray-500"
+                        className="min-h-[200px] bg-white border-gray-200 text-gray-800 placeholder:text-gray-400"
                         value={answers[question.id + "-content"] || ""}
                         onChange={(e) =>
                           handleAnswerChange(
@@ -811,11 +811,11 @@ export default function InterviewPage() {
                   </TabsContent>
                 </Tabs>
               </CardContent>
-              <CardFooter className="bg-gray-800/30 p-4 flex justify-end">
+              <CardFooter className="bg-gray-50 p-4 flex justify-end border-t border-gray-200">
                 <Button
                   onClick={() => handleSubmitQuestion(question.id)}
                   disabled={submitting[question.id] || isSubmittingAll}
-                  className="bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700"
+                  className="bg-gradient-to-r from-blue-500 to-green-500 hover:from-blue-600 hover:to-green-600 text-white"
                 >
                   {submitting[question.id] ? (
                     <>
@@ -845,7 +845,7 @@ export default function InterviewPage() {
               <Button
                 onClick={handleOpenDialog}
                 disabled={isSubmittingAll}
-                className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white py-6 px-8 text-lg"
+                className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white py-6 px-8 text-lg"
                 size="lg"
               >
                 {isSubmittingAll ? (
@@ -858,25 +858,25 @@ export default function InterviewPage() {
                 )}
               </Button>
             </AlertDialogTrigger>
-            <AlertDialogContent className="bg-gray-800 border-gray-700 text-white">
+            <AlertDialogContent className="bg-white border-gray-200 text-gray-800">
               <AlertDialogHeader>
-                <AlertDialogTitle className="text-blue-400">
+                <AlertDialogTitle className="text-blue-600">
                   Confirm Submission
                 </AlertDialogTitle>
-                <AlertDialogDescription className="text-gray-300">
+                <AlertDialogDescription className="text-gray-600">
                   Are you sure you want to submit all questions? This action
                   cannot be undone.
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel
-                  className="bg-gray-700 text-white hover:bg-gray-600 border-gray-600"
+                  className="bg-gray-100 text-gray-800 hover:bg-gray-200 border-gray-200"
                   onClick={handleCloseDialog}
                 >
                   Cancel
                 </AlertDialogCancel>
                 <AlertDialogAction
-                  className="bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white border-none"
+                  className="bg-gradient-to-r from-blue-500 to-green-500 hover:from-blue-600 hover:to-green-600 text-white border-none"
                   onClick={handleConfirmSubmitAll}
                 >
                   Submit All
