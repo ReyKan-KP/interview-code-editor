@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, Suspense } from "react"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
@@ -20,7 +20,7 @@ interface FeedbackData {
   resources: string[];
 }
 
-export default function FeedbackPage() {
+function FeedbackClient() {
   const searchParams = useSearchParams();
   const sessionId = searchParams.get('sessionId');
   
@@ -218,5 +218,20 @@ export default function FeedbackPage() {
         )}
       </motion.div>
     </div>
+  );
+}
+
+export default function FeedbackPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-gray-950 to-gray-900 text-white p-6">
+        <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-12 flex flex-col items-center justify-center">
+          <Loader2 className="h-12 w-12 text-blue-500 animate-spin mb-4" />
+          <p className="text-gray-300 text-lg">Loading feedback...</p>
+        </div>
+      </div>
+    }>
+      <FeedbackClient />
+    </Suspense>
   );
 }
