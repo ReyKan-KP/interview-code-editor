@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { v4 as uuidv4 } from 'uuid';
-import { ArrowRight, Code, Brain, Trophy } from 'lucide-react';
+import { ArrowRight, Code, Brain, Trophy, Terminal } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const Page = () => {
@@ -51,19 +51,34 @@ const Page = () => {
             Practice real-world problems and ace your technical interviews.
           </p>
           
-          <motion.div 
-            whileHover={{ scale: 1.05 }} 
-            whileTap={{ scale: 0.95 }}
-          >
-            <Link 
-              href="/interview" 
-              onClick={startNewSession}
-              className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-500 to-green-500 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all group text-white"
+          <div className="flex flex-col md:flex-row gap-4 justify-center">
+            <motion.div 
+              whileHover={{ scale: 1.05 }} 
+              whileTap={{ scale: 0.95 }}
             >
-              Start Practicing
-              <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={20} />
-            </Link>
-          </motion.div>
+              <Link 
+                href="/interview" 
+                onClick={startNewSession}
+                className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-500 to-green-500 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all group text-white"
+              >
+                Start Practicing
+                <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={20} />
+              </Link>
+            </motion.div>
+            
+            <motion.div 
+              whileHover={{ scale: 1.05 }} 
+              whileTap={{ scale: 0.95 }}
+            >
+              <Link 
+                href="/code-runner" 
+                className="inline-flex items-center px-8 py-4 bg-white border border-gray-200 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all group text-gray-800"
+              >
+                Try Code Runner
+                <Terminal className="ml-2 group-hover:translate-x-1 transition-transform" size={20} />
+              </Link>
+            </motion.div>
+          </div>
         </motion.div>
       </section>
 
