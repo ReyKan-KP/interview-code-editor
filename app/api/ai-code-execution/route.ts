@@ -46,6 +46,16 @@ Do not show the transpiled JavaScript, only the execution result.`;
 For ${lang === 'cpp' ? 'C++' : 'C'}, assume the code is compiled with ${lang === 'cpp' ? 'g++' : 'gcc'} and then executed.
 Include any standard output and errors that would occur during compilation or execution.`;
       }
+      if (lang === 'java') {
+        return basePrompt + `
+For Java, assume the code is compiled with javac and then executed.
+Include any standard output and errors that would occur during compilation or execution.`;
+      }
+      if (lang === 'python') {
+        return basePrompt + `
+For Python, assume the code is executed with python.
+Include any standard output and errors that would occur during execution.`;
+      }
       
       return basePrompt;
     };
