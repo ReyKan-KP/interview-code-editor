@@ -62,7 +62,8 @@ export function CodeEditor({
         language === 'c' || 
         language === 'cpp' ||
         language === 'java' ||
-        language === 'python'
+        language === 'python' ||
+        language === 'C++'
       )
     );
     setIsAiExecution(shouldUseAi);
@@ -212,8 +213,10 @@ export function CodeEditor({
           language,
         }),
       });
+      console.log(language);
 
       const data = await response.json();
+      console.log(data);
       
       if (!response.ok) {
         throw new Error(data.error || 'Failed to execute code');
@@ -237,8 +240,8 @@ export function CodeEditor({
       setOutput(formattedOutput);
       
     } catch (error) {
-      // Fallback to AI execution for Java and Python when server execution fails
-      if (language === 'java' || language === 'python') {
+      // Fallback to AI execution for Java, Python, C++, C, and TypeScript when server execution fails
+      if (language === 'java' || language === 'python' || language === 'cpp' || language === 'c' || language === 'typescript' ) {
         setOutput(``);
         await handleAiExecution();
       } else {
