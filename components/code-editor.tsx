@@ -233,7 +233,7 @@ export function CodeEditor({
     } catch (error) {
       // Fallback to AI execution for Java and Python when server execution fails
       if (language === 'java' || language === 'python') {
-        setOutput(`// Server execution failed. Falling back to AI simulation...\n`);
+        setOutput(``);
         await handleAiExecution();
       } else {
         setOutput(`// Error:\n${error instanceof Error ? error.message : String(error)}`);
