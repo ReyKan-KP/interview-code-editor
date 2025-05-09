@@ -38,23 +38,57 @@ If the code is syntactically correct and would run without producing output, res
         return basePrompt + `
 For TypeScript, assume that the code is transpiled to JavaScript with all type annotations removed.
 Consider TypeScript compilation errors where appropriate.
-Do not show the transpiled JavaScript, only the execution result.`;
+Do not show the transpiled JavaScript, only the execution result.
+Be strict about syntax checking:
+- Verify correct type annotations and type compatibility
+- Check for proper use of interfaces and types
+- Ensure proper use of optional chaining and nullish coalescing
+- Verify proper async/await usage
+- Check for proper variable declarations with let, const, or var
+
+If syntax or type errors are detected, format the error messages as the TypeScript compiler would.`;
       }
       
       if (lang === 'cpp' || lang === 'c') {
         return basePrompt + `
 For ${lang === 'cpp' ? 'C++' : 'C'}, assume the code is compiled with ${lang === 'cpp' ? 'g++' : 'gcc'} and then executed.
-Include any standard output and errors that would occur during compilation or execution.`;
+Include any standard output and errors that would occur during compilation or execution.
+Be strict about syntax checking:
+- Verify that each statement ends with a semicolon (;)
+- Check for proper header inclusions
+- Ensure proper memory allocation and deallocation
+- Verify proper function declarations and parameter passing
+- Check for proper pointer usage and dereferencing
+${lang === 'cpp' ? '- Verify proper object-oriented constructs and inheritance\n- Check for proper use of templates and STL' : '- Check for proper struct definitions and usage'}
+
+If syntax errors are detected, format the error messages as a ${lang === 'cpp' ? 'g++' : 'gcc'} compiler would.`;
       }
       if (lang === 'java') {
         return basePrompt + `
 For Java, assume the code is compiled with javac and then executed.
-Include any standard output and errors that would occur during compilation or execution.`;
+Include any standard output and errors that would occur during compilation or execution.
+Be strict about syntax checking:
+- Verify that each statement ends with a semicolon (;)
+- Check for proper bracket placement and matching
+- Ensure class declarations match file names according to Java conventions
+- Verify that all variables are declared before use
+- Check for proper method signatures and return types
+
+If syntax errors are detected, format the error messages as a Java compiler would.`;
       }
       if (lang === 'python') {
         return basePrompt + `
 For Python, assume the code is executed with python.
-Include any standard output and errors that would occur during execution.`;
+Include any standard output and errors that would occur during execution.
+Be strict about syntax checking:
+- Check for proper indentation and block structure
+- Verify correct function and method declarations
+- Ensure proper exception handling
+- Check for proper variable scoping
+- Verify proper imports and module usage
+- Check for PEP 8 compliance where relevant to execution
+
+If syntax errors are detected, format the error messages as the Python interpreter would.`;
       }
       
       return basePrompt;

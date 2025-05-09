@@ -256,7 +256,9 @@ export default function MultiLanguageRunner() {
     setIsAiExecution(
       newLanguage === 'typescript' || 
       newLanguage === 'c' || 
-      newLanguage === 'cpp'
+      newLanguage === 'cpp' ||
+      newLanguage === 'java' ||
+      newLanguage === 'python'
     );
   };
   
@@ -277,7 +279,7 @@ export default function MultiLanguageRunner() {
         </Alert>
       )} */}
       
-      {isAiExecution && (
+      {isAiExecution  && (
         <Alert className="mb-6 border-purple-200 bg-purple-50 text-purple-800">
           <Sparkles className="h-4 w-4 text-purple-500" />
           <AlertTitle>AI-powered code execution</AlertTitle>
@@ -374,7 +376,7 @@ export default function MultiLanguageRunner() {
           <Tabs defaultValue={isAiExecution ? "ai" : (isClientSide ? "client" : "server")}>
             <TabsList className="mb-4">
               <TabsTrigger value="client">Client-Side Execution</TabsTrigger>
-              <TabsTrigger value="server">Server-Side Execution</TabsTrigger>
+              {/* <TabsTrigger value="server">Server-Side Execution</TabsTrigger> */}
               <TabsTrigger value="ai">AI-Powered Execution</TabsTrigger>
             </TabsList>
             
@@ -387,7 +389,7 @@ export default function MultiLanguageRunner() {
               </ul>
             </TabsContent>
             
-            <TabsContent value="server">
+            {/* <TabsContent value="server">
               <ul className="list-disc pl-6 space-y-2">
                 <li>Code is sent to the server for execution</li>
                 <li>Supports Python and Java languages</li>
@@ -395,12 +397,12 @@ export default function MultiLanguageRunner() {
                 <li>Standard output and errors are captured and returned to the browser</li>
                 <li>Execution time is limited to prevent long-running programs</li>
               </ul>
-            </TabsContent>
+            </TabsContent> */}
             
             <TabsContent value="ai">
               <ul className="list-disc pl-6 space-y-2">
                 <li>Code is sent to OpenAI's API for execution simulation</li>
-                <li>Used for TypeScript, C, and C++ code</li>
+                <li>Used for TypeScript, C, C++, Java, and Python code</li>
                 <li>The AI analyzes your code and predicts what the output would be</li>
                 <li>This method doesn't require compilers to be installed on the server</li>
                 <li>Results are typically accurate but might differ slightly from actual execution</li>

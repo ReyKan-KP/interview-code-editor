@@ -60,7 +60,9 @@ export function CodeEditor({
       serverExecution && (
         language === 'typescript' || 
         language === 'c' || 
-        language === 'cpp'
+        language === 'cpp' ||
+        language === 'java' ||
+        language === 'python'
       )
     );
     setIsAiExecution(shouldUseAi);
@@ -75,11 +77,37 @@ export function CodeEditor({
       // Add a small delay to ensure DOM is ready
       const timer = setTimeout(() => {
         updateHtmlPreview();
-      }, 100);
+      }, 150);
       
       return () => clearTimeout(timer);
     }
   }, [code, showOutput, language]);
+
+  // Helper function to safely execute scripts in correct order
+  const executeScriptsSequentially = (doc: Document, scripts: HTMLScriptElement[], index = 0) => {
+    if (index >= scripts.length) return;
+    
+    const script = scripts[index];
+    const newScript = doc.createElement('script');
+    
+    // Copy all attributes
+    Array.from(script.attributes).forEach(attr => {
+      newScript.setAttribute(attr.name, attr.value);
+    });
+    
+    // Handle external scripts properly
+    if (script.src) {
+      newScript.onload = () => executeScriptsSequentially(doc, scripts, index + 1);
+      newScript.onerror = () => executeScriptsSequentially(doc, scripts, index + 1);
+      newScript.src = script.src;
+      script.parentNode?.replaceChild(newScript, script);
+    } else {
+      // Inline script
+      newScript.textContent = script.textContent;
+      script.parentNode?.replaceChild(newScript, script);
+      executeScriptsSequentially(doc, scripts, index + 1);
+    }
+  };
 
   const updateHtmlPreview = () => {
     if (previewRef.current) {
@@ -93,39 +121,17 @@ export function CodeEditor({
         // Write the HTML content
         iframeDoc.write(code);
         
-        // Create a mutation observer to ensure scripts are executed after DOM is ready
-        const observer = new MutationObserver(() => {
-          // Force scripts to be re-evaluated
-          const scripts = iframeDoc.getElementsByTagName('script');
-          for (let i = 0; i < scripts.length; i++) {
-            const script = scripts[i];
-            const newScript = iframeDoc.createElement('script');
-            
-            // Copy all attributes
-            Array.from(script.attributes).forEach(attr => {
-              newScript.setAttribute(attr.name, attr.value);
-            });
-            
-            // Copy the script content
-            newScript.textContent = script.textContent;
-            
-            // Replace the old script with the new one
-            if (script.parentNode) {
-              script.parentNode.replaceChild(newScript, script);
-            }
-          }
-          
-          observer.disconnect();
-        });
-        
-        // Start observing the document for changes
-        observer.observe(iframeDoc.documentElement, { 
-          childList: true,
-          subtree: true 
-        });
-        
-        // Close the document
+        // Close the document first to ensure complete DOM construction
         iframeDoc.close();
+        
+        // Short delay to ensure DOM is fully ready
+        setTimeout(() => {
+          // Get all scripts for sequential execution
+          const scripts = Array.from(iframeDoc.getElementsByTagName('script'));
+          if (scripts.length > 0) {
+            executeScriptsSequentially(iframeDoc, scripts);
+          }
+        }, 75);
       }
     }
   };
@@ -281,7 +287,7 @@ export function CodeEditor({
       setShowOutput(true);
       setTimeout(() => {
         updateHtmlPreview();
-      }, 50);
+      }, 150);
       return;
     }
     
@@ -477,7 +483,7 @@ export function CodeEditor({
                 ref={previewRef}
                 className="w-full h-[168px] border-none" 
                 title="HTML Preview"
-                sandbox="allow-scripts allow-same-origin allow-modals allow-forms allow-popups"
+                sandbox="allow-scripts allow-same-origin allow-modals allow-forms allow-popups allow-downloads allow-presentation"
               />
             </div>
           ) : (
